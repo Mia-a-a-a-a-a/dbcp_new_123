@@ -121,54 +121,81 @@ body {
 
 /* Hero Section */
 .hero {
-  background-size: cover;
-  background-position: center;
-  color: #020E54;
-  text-align: left;
-  padding: 100px 20px 20px 20px; 
+  position: relative;
+  min-height: 600px;
+  max-height: 800px;
+  overflow: hidden;
 }
 
-.hero-flex {
+.hero-container {
   display: flex;
-  align-items: center; 
-  justify-content: start; 
-  gap: 20px; 
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-column-left {
+  background-color:#ffffff90;
+  flex: 1;
+  max-width: 12%;
+  display: flex;
+  align-items: flex-start;
+  margin: 150px 00px 150px 00px;
+  padding: 20px;
+}
+
+.hero-column-mid {
+  background-color:#ffffff90;
+  flex: 4;
+  max-width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 150px 00px 150px 00px;
+  padding: 20px;
+}
+
+.hero-column-right {
+  flex: 5;
+  max-width: 48%;
+  margin: 100px 00px 100px 00px;
+  padding: 20px;
+}
+
+.hero-logo {
+  max-width: 80px;
+  height: auto;
 }
 
 .hero-content h1 {
+  font-family: Roboto, sans-serif;
   font-size: 2.5rem;
-  font-family: Roboto, sans;
-  color: #333399
+  color: #333399;
+  line-height: 1.2;
 }
 
-.hero-content p {
-  font-size: 1.2rem;
+.hero-column-left a:hover {
+  opacity: 0.8; /* Slight fade effect when hovering */
 }
 
 .hero-logos {
-  position: relative;
-  z-index: 1;
-  margin-top: 100px; 
   display: flex;
-  gap: 40px; 
-  justify-content: left; 
-  filter: drop-shadow(1px 1px 1px white);
+  gap: 40px;
+  margin-top: 40px;
+  align-items: center;
 }
 
 .logo {
-  max-width: 150px;
-  max-height: 110px; 
-  vertical-align: middle;
+  max-width: 110px;
+  max-height: 80px;
   height: auto;
 }
 
 .hero-logos a:hover {
   opacity: 0.8; /* Slight fade effect when hovering */
 }
-
-
-/* -------------- Di atasnya garis ini semua sudah diperiksa dan benar kepake di html -------------- */
-/* -------------- Di bawahnya garis ini BELUM diperiksa -------------- */
 
 /* Statistics Section */
 .statistics {
@@ -254,8 +281,6 @@ body {
   max-width: 300px; /* Limit the width on larger screens */
 }
 
-/* -------------- Di atasnya garis ini BELUM diperiksa -------------- */
-/* -------------- Di bawahnya garis ini semua sudah diperiksa dan benar kepake di html-------------- */
 
 /* Article Section contains two coloumn: left image, right text paragraph */
 .article-section {
@@ -560,8 +585,6 @@ th {
  background-color: #f2f2f2;
 }
 
-/* -------------- Di atasnya garis ini semua sudah diperiksa dan benar kepake di html-------------- */
-
 /* Related Articles List */
 .article-section .related-articles-list {
   list-style-type: disc; /* Bulleted list */
@@ -655,11 +678,11 @@ th {
 
 
 /* Responsive Design with Media Queries */
+
 /* Adjust for tablets and smaller devices */
 
 @media (max-width: 768px) {
 
-/* Menu Section OK */
   .hamburger {
     display: block; 
   }
@@ -704,28 +727,41 @@ th {
     text-align: center;
   }
 
-/* Hero Section OK */
-  .hero {
-    padding: 50px 20px; /* Reduce padding on smaller screens */
+/* Hero Section */
+  .hero-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 400px;
   }
 
-  .hero-content h1 {
-    font-size: 2rem; /* Adjust headline size */
+  .hero-column-left, .hero-column-mid, .hero-column-right {
+    flex: 100%;
+    align-items: center;
+    max-width: 100%;
+    margin: 40px 0px 40px 0px;
+    padding: 0px;
   }
 
-  .hero-content p {
-    font-size: 1rem; /* Adjust text size */
+  .hero-column-left, .hero-column-right {
+    display: none; /* Ensure the right column remains hidden on mobile screens */
   }
 
   .hero-content h1 {
     font-size: 1.8rem;
+    text-align:center;
   }
 
-  .hero-content p {
-    font-size: 0.9rem;
+  .hero-logos {
+    flex-direction: column;
+    align-items: center;
   }
 
-/* stat & news Section dunno */
+  .logo {
+    max-width: 100px;
+    max-height: 80px;
+  }
+
+/* stat & news Section */
   .stat-item {
     margin: 10px auto; /* Center stats items */
   }
@@ -752,11 +788,8 @@ th {
 }
 
 /* Adjust layout for mobile screens */
+
 @media (max-width: 480px) {
-  /* under here kayaknya ok */
-  .hero {
-    padding: 30px 15px; /* Further reduce padding */
-  }
 
   .hamburger {
     font-size: 20px; /* Adjust size for smaller screens */
@@ -774,6 +807,23 @@ th {
 
   .submenu {
     padding-left: 10px; /* Adjust alignment for small screens */
+  }
+
+  .hero-container {
+    min-height: 300px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-logos {
+    gap: 10px;
+  }
+
+  .logo {
+    max-width: 80px;
+    max-height: 60px;
   }
 
   .stats-grid {
