@@ -1,0 +1,271 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="figures/favicon.png">
+  <title>Gallery | Data Buoy Cooperation Panel</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  
+<!-- Header Section -->
+  <section class="header">
+      <div class="container header-flex">
+          <!--a href="index.html">
+            <img src="https://www.ocean-ops.org/dbcp/graph_ref/dbcp_light_text_150.png" alt="DBCP Logo" class="header-logo">
+          </a-->
+          <div class="header-content">
+            <h1>DBCP</h1>
+            <p>Data Buoy Cooperation Panel</p>
+          </div>
+      </div> 
+
+  <!-- Navigation Menu -->
+  <nav class="navbar">
+    <div class="container">
+    <div class="hamburger" id="hamburger"> &#9776; </div>
+      <ul class="menu" id="menu">
+        <li class="menu-item">
+          <a href="about.html">Who we are</a>
+          <ul class="submenu">
+            <li><a href="about.html">About us</a></li>
+            <li><a href="action_groups.html">Action groups</a></li>
+            <li><a href="sessions.html">Sessions</a></li>
+            <li><a href="contact_us.html">Contact us</a></li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="data_access">Data and Network</a>
+          <ul class="submenu">
+            <li><a href="network_status_and_map.html">Network status and map</a></li>
+            <li><a href="data_access.html">Data access</a></li>
+            <li><a href="qc.html">Quality control</a></li>
+            <li><a href="share_data.html">Share your data</a></li>
+            <li><a href="https://www.ocean-ops.org/board?t=DBCP&qptf=1" target="_blank">OceanOPS dashboard</a></li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="#">Resources</a>
+          <ul class="submenu">
+            <li><a href="standard.html">Standard and best practices</a></li>
+            <li><a href="publications.html">Publications</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="learning.html">Learning</a>
+          <ul class="submenu">
+            <li><a href="platform.html">Observation platforms</a></li>
+            <li><a href="barometer_upgrade.html">Barometer upgrade</a></li>
+            <li><a href="data_uses.html">Uses of buoy data</a></li>
+            <li><a href="deployment.html">Deployment</a></li>
+            <li><a href="e_stewardship.html">Environmental stewardship</a></li>
+            <li><a href="anti_vandalism.html">Anti-vandalism</a></li>
+          </ul>
+        </li>
+    </ul>
+    </div>
+  </nav>
+  
+  </section>
+<!-- end of header section -->
+  
+
+
+<!-- WARNING -->
+<!-- WARNING -->
+<!-- WARNING: Please be aware of not changing anything above this line unless exeptionally necessary, thank you -->
+  
+  
+  
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-container" 
+      style="background-image: url('figures/headbanner03.png');">
+      <div class="hero-column-left">
+        <a href="index.html">
+          <img src="figures/favicon.png" alt="DBCP Logo" style="max-width: 120px;">
+        </a>
+      </div>
+      <div class="hero-column-mid">
+        <div class="hero-content">
+          <h1>DBCP: Supporting Research, Advancing Ocean Observations</h1>
+        </div>
+        <div class="hero-logos">
+          <a href="https://www.wmo.int" target="_blank">
+            <img src="figures/wmologo2016_acronym_vertical_cmyk_en.png" alt="Logo 2" class="logo">
+          </a>
+          <a href="https://www.ioc.unesco.org/en" target="_blank">
+            <img src="figures/IOC-UNESCO-Logo_final.png" alt="Logo 3" class="logo" style="max-height: 70px;">
+          </a>
+          <a href="https://goosocean.org" target="_blank">
+            <img src="figures/GOOS_logo_new.png" alt="Logo 4" class="logo">
+          </a>
+        </div>
+      </div>
+      <div class="hero-column-right"></div>
+    </div>
+  </section>
+
+
+  <!-- Gallery Section -->
+  <section class="gallery">
+    <div class="container">
+      <h2>Photo Gallery</h2>
+      <p>Explore images of data buoys, ocean observations, and DBCP activities.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="figures/gallery/001.jpg" alt="Data Buoy in Ocean">
+          <div class="gallery-caption">Data buoy deployed in the Pacific Ocean</div>
+        </div>
+        <div class="gallery-item">
+          <img src="figures/gallery/002.jpg" alt="Buoy Maintenance">
+          <div class="gallery-caption">Technicians performing buoy maintenance</div>
+        </div>
+        <div class="gallery-item">
+          <img src="figures/gallery/003.jpg" alt="Buoy Deployment">
+          <div class="gallery-caption">Buoy deployment during a research mission</div>
+        </div>
+        <div class="gallery-item">
+          <img src="figures/gallery/004.jpg" alt="Ocean Observation">
+          <div class="gallery-caption">Buoy capturing oceanographic data</div>
+        </div>
+        <div class="gallery-item">
+          <img src="figures/gallery/005.jpg" alt="DBCP Workshop">
+          <div class="gallery-caption">DBCP workshop in 2024</div>
+        </div>
+        <div class="gallery-item">
+          <img src="figures/gallery/006.jpg" alt="Buoy in Storm">
+          <div class="gallery-caption">Buoy operating in rough seas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+<!-- Related article section -->
+
+<section class="article-section"> 
+  <div class="container">
+    <div class="content" >
+     <h3><i>Related articles</i></h3>
+    </div>
+    <div class="content" >
+     <div class="fourparts-one";>
+        <figure>
+          <img src="figures/thumbnail_standard.jpg" alt="related articles"/>
+          <a href="standard.html" target="_blank">
+            <p style="text-align: center; ">Standard and best practices</p>
+          </a>
+        </figure>
+     </div>
+     <div class="fourparts-two">
+        <figure>
+          <img src="figures/thumbnail_publications.jpg" alt="related articles"/>
+          <a href="publications.html" target="_blank">
+            <p style="text-align: center;">Publications</p>
+          </a>
+        </figure>
+     </div>
+     <div class="fourparts-three">
+        <figure>
+          <img src="figures/thumbnail_anti_vandalism.jpg" alt="related articles"/>
+          <a href="anti_vandalism.html" target="_blank">
+            <p style="text-align: center;">Addressing buoy vandalism</p>
+          </a>
+        </figure>
+     </div>
+     <div class="fourparts-four">
+        <figure>
+          <img src="figures/thumbnail_barometer_upgrade.jpg" alt="related articles"/>
+          <a href="barometer_upgrade.html" target="_blank">
+            <p style="text-align: center;">Barometer upgrade program</p>
+          </a>
+        </figure>
+    </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- WARNING -->
+<!-- WARNING -->
+<!-- WARNING: Please be aware of not changing anything beyond this line unless exeptionally necessary, thank you -->
+
+  <!-- Footer Section -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <h4>About the DBCP</h4>
+        <p>
+          The DBCP focuses on advancing ocean observation through collaborative efforts, enhancing data collection for marine and climate research.
+        </p>
+      </div>
+      <div class="footer-social">
+        <h4>DBCP Newsletter</h4>
+        <div class="social-icons">
+          <a href="newsletter.html"><img src="https://e7.pngegg.com/pngimages/378/897/png-clipart-flat-design-newsletter-design-orange-logo-thumbnail.png" alt="Newsletter Icon" style="width: 40px; height: auto;"></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 - DBCP</p>
+      <ul class="footer-bottom-links">
+        <li><a href="#">Accessibility statement</a></li>
+        <li><a href="#">Sitemap</a></li>
+        <li><a href="#">Contact us</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
