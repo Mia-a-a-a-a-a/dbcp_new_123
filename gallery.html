@@ -1,51 +1,10 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/png" href="figures/favicon.png">
-  <title>Gallery | Data Buoy Cooperation Panel</title>
+  <title>Publications ¦ Data Buoy Cooperation Panel</title>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
@@ -131,7 +90,7 @@
       </div>
       <div class="hero-column-mid">
         <div class="hero-content">
-          <h1>DBCP: Supporting Research, Advancing Ocean Observations</h1>
+          <h1>DBCP: supporting research, advancing ocean observations</h1>
         </div>
         <div class="hero-logos">
           <a href="https://www.wmo.int" target="_blank">
@@ -150,8 +109,10 @@
   </section>
 
 
-  <!-- Gallery Section -->
-  <section class="gallery">
+<!-- Article Section with one coloumn only -->
+
+<!-- Gallery Section -->
+<section class="gallery">
     <div class="container">
       <h2>Photo Gallery</h2>
       <p>Explore images of data buoys, ocean observations, and DBCP activities.</p>
@@ -170,9 +131,9 @@
         </div>
       </div>
     </div>
-  </section>
+</section>
 
-  <section class="gallery">
+<section class="gallery">
     <div class="container">
       <p>Explore images of data buoys, ocean observations, and DBCP activities.</p>
       <div class="gallery-grid">
@@ -190,8 +151,7 @@
         </div>
       </div>
     </div>
-  </section>
-
+</section>
 
 
 
@@ -206,17 +166,17 @@
     <div class="content" >
      <div class="fourparts-one";>
         <figure>
-          <img src="figures/thumbnail_standard.jpg" alt="related articles"/>
-          <a href="standard.html" target="_blank">
-            <p style="text-align: center; ">Standard and best practices</p>
+          <img src="figures/thumbnail_publications.jpg" alt="related articles"/>
+          <a href="publications.html" target="_blank">
+            <p style="text-align: center;">Publications</p>
           </a>
         </figure>
      </div>
      <div class="fourparts-two">
         <figure>
-          <img src="figures/thumbnail_publications.jpg" alt="related articles"/>
-          <a href="publications.html" target="_blank">
-            <p style="text-align: center;">Publications</p>
+          <img src="figures/thumbnail_e_stewardship.jpg" alt="related articles"/>
+          <a href="e_stewardship.html" target="_blank">
+            <p style="text-align: center;">Environmental stewardship</p>
           </a>
         </figure>
      </div>
